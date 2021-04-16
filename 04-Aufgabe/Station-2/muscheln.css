@@ -1,0 +1,101 @@
+.background {
+    background-image: url('../Station-2/images/bg.png');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+body {
+    text-align: center;
+    margin: auto;
+    max-width: 880px;
+    max-height: 495px;
+}
+
+img {
+    max-width: 600px;
+    max-height: 400px;
+    display:inline;
+    margin-top: 150px;
+}
+
+h1 {
+    font-size: 25px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    position: absolute;
+    left: 560px;
+    top: 180px;
+    box-sizing: content-box;
+    width: 400px;
+}
+
+.shell {
+    position: absolute;
+    bottom: 250px;
+    left: 540px;
+    opacity: 100%;
+}
+
+.perle {
+    position: absolute;
+    bottom: 250px;
+    left: 540px;
+    opacity: 0%;
+}
+
+.shell:hover {
+    opacity: 0%;
+}
+
+.perle:hover {
+    opacity: 100%;
+}
+
+.shellmitte {
+    position: absolute;
+    top: 170px;
+    left: 640px;
+    opacity: 100%;
+}
+
+.perlemitte{
+    position: absolute;
+    top: 170px;
+    left: 640px;
+    opacity: 0%;
+}
+
+.shellmitte:hover {
+    opacity: 0%;
+}
+
+.perlemitte:hover {
+    opacity: 100%;
+}
+
+.shellrechts {
+    position: absolute;
+    top: 230px;
+    right: 650px;
+    opacity: 100%;
+}
+
+.perlerechts {
+    position: absolute;
+    top: 230px;
+    right: 650px;
+    opacity: 0%;
+}
+
+.shellrechts:hover{
+    opacity: 0%;
+}
+
+.perlerechts:hover {
+    opacity: 100%;
+}
+
+
+
+
+

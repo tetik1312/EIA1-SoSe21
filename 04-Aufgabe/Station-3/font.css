@@ -1,0 +1,56 @@
+.background {
+    background-image: url('../Station-3/images/bg.png');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+body {
+    text-align: center;
+    margin: auto;
+    max-width: 880px;
+    max-height: 495px;
+}
+
+img {
+    max-width: 600px;
+    max-height: 400px;
+    display:inline;
+    margin-top: 150px;
+}
+
+@font-face {
+    font-family: 'kenyan';
+    src: url(fonts/kenyan\ coffee\ rg.ttf);
+    font-style: normal;
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'kenyan';
+    src:url(fonts/kenyan\ coffee\ bd.ttf)
+}
+
+h1 {
+    font-family: 'kenyan';
+    font-weight: normal;
+    color: beige;
+    font-size: 30px;
+    position: absolute;
+    left: 560px;
+    top: 240px;
+    box-sizing: content-box;
+    width: 400px;
+}
+
+p {
+    font-family: 'kenyan';
+    font-weight: 100;
+    color: beige;
+    font-size: 20px;
+    position: absolute;
+    left: 560px;
+    top: 340px;
+    box-sizing: content-box;
+    width: 400px;
+    text-align: left;
+}

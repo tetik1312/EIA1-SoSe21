@@ -1,0 +1,95 @@
+.background {
+    background-image: url('../Station-8/images/bg.png');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+body {
+    text-align: center;
+    margin: auto;
+    max-width: 880px;
+    max-height: 495px;
+}
+
+img {
+    max-width: 600px;
+    max-height: 400px;
+    display:inline;
+    margin-top: 150px;
+}
+
+.schleife {
+    position: absolute;
+    z-index: 1;
+    right: 470px;
+    bottom: 205px;
+}
+
+.muscheloben {
+    position: absolute;
+    transform: rotate(20deg);
+    left: 510px;
+    top: 90px;
+    animation: oben 4s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes oben {
+    from {top: 90px;}
+    to {top: 320px;}
+}
+
+.muschelunten {
+    position: absolute;
+    transform: rotate(20deg);
+    right: 580px;
+    bottom: 230px;
+    z-index: 2;
+    animation: unten 4s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes unten {
+    from {bottom: 230px;}
+    to {bottom: 200px;}
+}
+
+.perle {
+    position: absolute;
+    transform: rotate(70deg);
+    right: 550px;
+    top: 50px;
+    z-index: 0;
+    animation: perle 4s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes perle {
+    from {top: 50px;}
+    to {top: 320px;}
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-size: 25px;
+    position: absolute;
+    left: 525px;
+    top: 210px;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-size: 15px;
+    position: absolute;
+    left: 510px;
+    top: 278px;
+    text-align: left;
+    box-sizing: content-box;
+    width: 400px;
+
+}
