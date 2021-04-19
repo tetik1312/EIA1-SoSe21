@@ -4,30 +4,25 @@
     background-size: auto;
 }
 
-body {
-    text-align: center;
-    margin: auto;
-    max-width: 880px;
-    max-height: 495px;
-}
-
-img {
-    max-width: 600px;
-    max-height: 400px;
-    display:inline;
-    margin-top: 150px;
+.wrapper {
+    background-image: url(../Station-1/images/wrapperbg.png);
+    width: 600px; height: 400px;
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .shell {
     position: absolute;
-    bottom: 185px;
-    left: 410px;
+    bottom: -30px;
+    left: -30px;
 }
 
 .penguin {
     position: absolute;
-    bottom: 220px;
-    right: 410px;
+    bottom: -30px;
+    right: -30px;
 }
 
 h1 {
@@ -35,8 +30,8 @@ h1 {
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: white;
     position: absolute;
-    left: 560px;
-    top: 180px;
+    right: 100px;
+    top: 40px;
     box-sizing: content-box;
     width: 400px;
 }
@@ -46,8 +41,8 @@ p {
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: white;
     position: absolute;
-    left: 560px;
-    top: 300px;
+    right: 100px;
+    top: 150px;
     box-sizing: content-box;
     width: 400px;
     text-align: left;

@@ -4,30 +4,25 @@
     background-size: auto;
 }
 
-body {
-    text-align: center;
-    margin: auto;
-    max-width: 880px;
-    max-height: 495px;
-}
-
-img {
-    max-width: 600px;
-    max-height: 400px;
-    display:inline;
-    margin-top: 150px;
+.wrapper {
+    background-image: url(../Station-7/images/wrapperbg.png);
+    width: 600px; height: 400px;
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .schleife {
     position: absolute;
     z-index: 1;
-    right: 470px;
-    bottom: 205px;
+    right: 2px;
+    bottom: 1px;
 }
 
 iframe {
     position: absolute;
-    right: 545px;
-    bottom: 280px;
+    top: 20%;
+    left: 10%;
 }
 
