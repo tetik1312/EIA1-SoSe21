@@ -19,12 +19,11 @@ var australia2018 = 2100.5;
 ;
 var total2018 = africa2018 + southAmerica2018 + europe2018 + northAmerica2018 + asia2018 + australia2018;
 function emission(continentName, continentValue2008, continentValue2018) {
-    continentValue2018 * 100 / total2018;
     document.querySelector("#titleRegion").innerHTML = continentName;
     document.querySelector("#ersterWert").innerHTML = continentValue2018.toString();
     document.querySelector("#ersterText").innerHTML = continentName;
     document.querySelector("#zweiterWert").innerHTML = Math.round(continentValue2018 * 100 / total2018) + "%";
-    document.querySelector("#dritterWert").innerHTML = Math.round(continentValue2018 - continentValue2008) * 100 / continentValue2008 + "%";
+    document.querySelector("#dritterWert").innerHTML = (continentValue2018 - continentValue2008 * 100 / continentValue2008).toFixed(2) + "%";
     document.querySelector("#vierterWert").innerHTML = Math.round(continentValue2018 - continentValue2008).toString();
     document.querySelector(".chartWrapper .chart").setAttribute('style', 'height:' + continentValue2018 * 100 / total2018 + "%");
 }

@@ -23,14 +23,13 @@ var total2018: number = africa2018 + southAmerica2018 + europe2018 + northAmeric
 
 
 function emission(continentName: string, continentValue2008: number, continentValue2018: number) { 
-    continentValue2018*100/total2018
     document.querySelector("#titleRegion").innerHTML = continentName;
     document.querySelector("#ersterWert").innerHTML = continentValue2018.toString();
     document.querySelector("#ersterText").innerHTML = continentName;
-    document.querySelector("#zweiterWert").innerHTML = Math.round(continentValue2018*100/total2018) + "%";
-    document.querySelector("#dritterWert").innerHTML = Math.round(continentValue2018-continentValue2008 *100/continentValue2008) + "%";
-    document.querySelector("#vierterWert").innerHTML = Math.round(continentValue2018-continentValue2008).toString();
-    document.querySelector(".chartWrapper .chart").setAttribute('style', 'height:' + continentValue2018*100/total2018 + "%");
+    document.querySelector("#zweiterWert").innerHTML = Math.round(continentValue2018 * 100 / total2018) + "%";
+    document.querySelector("#dritterWert").innerHTML = (continentValue2018 - continentValue2008 * 100 / continentValue2008).toFixed(2) + "%";
+    document.querySelector("#vierterWert").innerHTML = Math.round(continentValue2018 - continentValue2008).toString();
+    document.querySelector(".chartWrapper .chart").setAttribute('style', 'height:' + continentValue2018 * 100 / total2018 + "%");
 }
 
 
