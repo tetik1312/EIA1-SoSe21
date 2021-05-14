@@ -34,8 +34,11 @@ namespace Aufgabe8 {
     });
 
 
-    var sounds: string[] = ["assets/A.mp3", "assets/C.mp3", "assets/F.mp3", "assets/G.mp3", "assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3", "assets/laugh-1.mp3", "assets/laugh-2.mp3" ];
- 
+    var sounds: string[] = ["assets/A.mp3", "assets/C.mp3", "assets/F.mp3", "assets/G.mp3", "assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3", "assets/laugh-1.mp3", "assets/laugh-2.mp3"];
+    
+    //variablen angelegt
+    var myPlay: HTMLElement = document.getElementById("play");
+    var myPause: HTMLElement = document.getElementById("pause");
 
 
     document.querySelector("#remix").addEventListener("click", function (): void { remixPlay(); });
@@ -43,7 +46,7 @@ namespace Aufgabe8 {
     function remixPlay(): void {
         deleteButton();
         for (let index: number = 0; index <= 4; index++) {
-            var random: number = Math.floor(Math.random() * 8);
+            var random: number = Math.floor(Math.random() * 9);
             beats[index] = sounds[random];
             console.log(random);
         }
@@ -57,6 +60,8 @@ namespace Aufgabe8 {
             }
 
         }, 500);
+
+        toggleIcons(myPlay, myPause);
     }
 
 
@@ -74,11 +79,6 @@ namespace Aufgabe8 {
 
     }
 
-
-
-    //variablen angelegt
-    var myPlay: HTMLElement = document.getElementById("play");
-    var myPause: HTMLElement = document.getElementById("pause");
 
     //wenn auf play geklickt wird, wird die funktion toggleicons aufgerufen
     myPlay.addEventListener("click", function (): void {

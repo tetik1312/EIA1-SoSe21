@@ -26,11 +26,14 @@ var Aufgabe8;
         }, 500);
     });
     var sounds = ["assets/A.mp3", "assets/C.mp3", "assets/F.mp3", "assets/G.mp3", "assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3", "assets/laugh-1.mp3", "assets/laugh-2.mp3"];
+    //variablen angelegt
+    var myPlay = document.getElementById("play");
+    var myPause = document.getElementById("pause");
     document.querySelector("#remix").addEventListener("click", function () { remixPlay(); });
     function remixPlay() {
         deleteButton();
         for (var index_1 = 0; index_1 <= 4; index_1++) {
-            var random = Math.floor(Math.random() * 8);
+            var random = Math.floor(Math.random() * 9);
             beats[index_1] = sounds[random];
             console.log(random);
         }
@@ -41,6 +44,7 @@ var Aufgabe8;
                 index = 0;
             }
         }, 500);
+        toggleIcons(myPlay, myPause);
     }
     document.querySelector("#delete").addEventListener("click", function () { deleteButton(); });
     function deleteButton() {
@@ -51,9 +55,6 @@ var Aufgabe8;
     function myStopFunction() {
         clearInterval(interval);
     }
-    //variablen angelegt
-    var myPlay = document.getElementById("play");
-    var myPause = document.getElementById("pause");
     //wenn auf play geklickt wird, wird die funktion toggleicons aufgerufen
     myPlay.addEventListener("click", function () {
         toggleIcons(this, myPause);
