@@ -4,7 +4,6 @@ namespace Aufgabe8 {
         sound.play();
     }
 
-
     var beats: string[] = ["assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3"];
 
     var index: number = 0;
@@ -21,18 +20,47 @@ namespace Aufgabe8 {
     document.querySelector("#play").addEventListener("click", function (): void {
 
         var interval: number = setInterval(function (): void {
-            var beat: HTMLAudioElement = new Audio(beats[index]);
-            beat.play();
+            playSample(beats[index]);
 
             index = index + 1;
 
             if (index == 3) {
                 index = 0;
+
             }
 
-        },                                 500);
+        }, 500);
     });
 }
+
+
+
+document.querySelector("#remix").addEventListener("click", function (): void {
+
+    function remixPlay(beats: string): void {
+        beats: [] = [];
+        for (let index: number = 0; index < 2; index++) {
+            var beats: string = Math.random().toString();
+        }
+
+    }
+});
+
+document.querySelector("#delete").addEventListener("click", deleteButton);
+
+function deleteButton(): void {
+    beats.length = 0;
+}
+
+document.querySelector("#pause").addEventListener("click", myStopFunction);
+
+function myStopFunction(): void {
+    playSample(beats[index]);
+    var sound: HTMLAudioElement;
+    sound.pause();
+}
+
+
 
 //variablen angelegt
 var myPlay: HTMLElement = document.getElementById("play");
@@ -52,15 +80,4 @@ myPause.addEventListener("click", function (): void {
 function toggleIcons(firstHTMLElement: HTMLElement, secondHTMLElement: HTMLElement): void {
     firstHTMLElement.classList.add("is-hidden");
     secondHTMLElement.classList.remove("is-hidden");
-}
-
-
-//deleteButton.addEventListener("click", function(): void {
-
-//});
-
-function remix (remix: string): void {
-//var remix: number = Math.floor((Math.random() * 3) + 1).toString;
-//var remix: string[] = ["assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3"];
-
 }

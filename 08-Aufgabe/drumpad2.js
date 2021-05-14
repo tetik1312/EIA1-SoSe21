@@ -15,10 +15,9 @@ var Aufgabe8;
     document.querySelector(".button7").addEventListener("click", function () { playSample("assets/snare.mp3"); });
     document.querySelector(".button8").addEventListener("click", function () { playSample("assets/laugh-1.mp3"); });
     document.querySelector(".button9").addEventListener("click", function () { playSample("assets/laugh-2.mp3"); });
-    document.querySelector(".playButton").addEventListener("click", function () {
+    document.querySelector("#play").addEventListener("click", function () {
         var interval = setInterval(function () {
-            var beat = new Audio(beats[index]);
-            beat.play();
+            playSample(beats[index]);
             index = index + 1;
             if (index == 3) {
                 index = 0;
@@ -26,6 +25,24 @@ var Aufgabe8;
         }, 500);
     });
 })(Aufgabe8 || (Aufgabe8 = {}));
+document.querySelector("#remix").addEventListener("click", function () {
+    function remixPlay(beats) {
+        beats: [];
+        for (var index_1 = 0; index_1 < 2; index_1++) {
+            var beats = Math.random().toString();
+        }
+    }
+});
+document.querySelector("#delete").addEventListener("click", deleteButton);
+function deleteButton() {
+    beats.length = 0;
+}
+document.querySelector("#pause").addEventListener("click", myStopFunction);
+function myStopFunction() {
+    playSample(beats[index]);
+    var sound;
+    sound.pause();
+}
 //variablen angelegt
 var myPlay = document.getElementById("play");
 var myPause = document.getElementById("pause");
@@ -42,9 +59,5 @@ myPause.addEventListener("click", function () {
 function toggleIcons(firstHTMLElement, secondHTMLElement) {
     firstHTMLElement.classList.add("is-hidden");
     secondHTMLElement.classList.remove("is-hidden");
-}
-function remix(remix) {
-    //var remix: number = Math.floor((Math.random() * 3) + 1).toString;
-    //var remix: string[] = ["assets/hihat.mp3", "assets/kick.mp3", "assets/snare.mp3"];
 }
 //# sourceMappingURL=drumpad2.js.map
