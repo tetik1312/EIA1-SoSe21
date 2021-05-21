@@ -1,7 +1,7 @@
 let anzahlTodos: number = 0;
 
 function updateAnzahl(): void {
-    document.getElementById("anzahl").innerText = anzahlTodos + "ToDo";
+    document.getElementById("anzahl").innerText = anzahlTodos + " ToDo's";
 }
 
 
@@ -40,9 +40,9 @@ function createTodo (): void {
     anzahlTodos++;
     updateAnzahl();
 
-    checkbox.addEventListener("click", function(): void {
-        deleteTask(newTodo);
-    });
+    // checkbox.addEventListener("click", function(): void {
+    //     deleteTask(newTodo);
+    // });
 }
 
 function deleteTask(newTodo: HTMLDivElement): void {

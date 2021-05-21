@@ -1,6 +1,6 @@
 var anzahlTodos = 0;
 function updateAnzahl() {
-    document.getElementById("anzahl").innerText = anzahlTodos + "ToDo";
+    document.getElementById("anzahl").innerText = anzahlTodos + " ToDo's";
 }
 //keypress
 var todoText = document.querySelector("#todo");
@@ -31,9 +31,9 @@ function createTodo() {
     });
     anzahlTodos++;
     updateAnzahl();
-    checkbox.addEventListener("click", function () {
-        deleteTask(newTodo);
-    });
+    // checkbox.addEventListener("click", function(): void {
+    //     deleteTask(newTodo);
+    // });
 }
 function deleteTask(newTodo) {
     newTodo.remove();
