@@ -1,0 +1,59 @@
+body {
+    background-color: rgba(215, 215, 215, 1);
+    left: auto;
+    width: 768px;
+    text-align: left;
+}
+
+.pointer {cursor: pointer;}
+
+h1 {
+    font-size:50px;
+    font-family:monospace;
+    color: #1C1C1C;
+    position: absolute;
+    left: 300px;
+    top: 50px;
+}
+
+p {
+    font-size:30px;
+    font-family:monospace;
+    color: #1C1C1C;
+    position: absolute;
+    left: 300px;
+    top: 125px;
+}
+
+#todo {
+    position:absolute;
+    left: 250px;
+    top: 200px;
+    font-size: 20px;
+    border-color: transparent;
+    height: 60px;
+    width: 400px;
+    padding-left: 30px;
+    outline: none;
+}
+
+
+#taskArray{
+    color: #1C1C1C;
+    font-family: monospace;
+    position:absolute;
+    left: 250px;
+    top: 270px;
+    font-size: 20px;
+    height: 55px;
+    width: 387px;
+}
+
+.newTodo{
+    background-color: #FFF;
+    padding-left: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    width: 387px;
+    border-bottom: 5px solid rgba(215, 215, 215, 1);
+}
