@@ -1,4 +1,6 @@
 body {
+    width: 1280px;
+    height: 800px;
     font-family: Arial, Helvetica, sans-serif;
     background: rgba(81, 169, 198, 0.2);
 }
@@ -16,9 +18,7 @@ footer {
     margin: 0 auto;
     text-align: center;
 }
-.is-hidden{
-    display: none !important;
-}
+.pointer {cursor: pointer;}
 
 *{
     box-sizing:border-box;
@@ -26,13 +26,23 @@ footer {
 .feld {
     border: 1px solid black;
     display: inline-block;
-    width:80px;
-    height:80px;
+    width:100px;
+    height:100px;
     float: left;
 
 }
-#board {
-    width: 240px;
-    height: 240px;
-    margin: 5px auto;
+.leichtesspielfeld{
+    width: 300px;
+    height: 3000px;
+    margin: 0px auto;
+}
+.mittleresspielfeld{
+    width: 400px;
+    height: 400px;
+    margin: 0px auto;
+}
+.schweresspielfeld{
+    width: 500px;
+    height: 500px;
+    margin: 0px auto;
 }

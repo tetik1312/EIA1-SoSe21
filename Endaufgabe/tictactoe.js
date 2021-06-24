@@ -1,89 +1,182 @@
-var board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+var buttonsDOMElement;
 var leichtDOMElement;
 var mittelDOMElement;
 var schwerDOMElement;
 var pointsDOMElement;
-var roundDOMElement;
+var ganzesFeld;
+var playerYou = false;
+// let playerComp: boolean = true;
+var pointsComp = 0;
+var pointsYou = 0;
+var round = 1;
+var zug = 0;
+var feldlaenge;
+buttonsDOMElement = document.querySelector("#buttons");
 leichtDOMElement = document.querySelector("#leicht");
 mittelDOMElement = document.querySelector("#mittel");
 schwerDOMElement = document.querySelector("#schwer");
 pointsDOMElement = document.querySelector("#points");
-roundDOMElement = document.querySelector("#round");
+ganzesFeld = document.querySelector("#board");
 leichtDOMElement.addEventListener("click", leichtErstellen);
 mittelDOMElement.addEventListener("click", mittelErstellen);
 schwerDOMElement.addEventListener("click", schwerErstellen);
+var spielFelder = [];
 //erstellt spielfeld für schwierigkeit: leicht und entfernt alle buttons
 function leichtErstellen() {
-    leichtDOMElement.innerHTML = "";
-    var leicht = document.createElement("div");
-    leicht.classList.add("board");
+    buttonsDOMElement.innerHTML = "";
+    feldlaenge = 3;
     pointsErstellen();
-    roundErstellen();
-    document.querySelector("#leicht").remove();
-    document.querySelector("#mittel").remove();
-    document.querySelector("#schwer").remove();
+    spielFelder.push("", "", "", "", "", "", "", "", "");
+    ganzesFeld.classList.add("leichtesspielfeld");
+    boardErstellen();
 }
 //erstellt spielfeld für schwierigkeit: mittel und entfernt alle buttons
 function mittelErstellen() {
-    mittelDOMElement.innerHTML = "";
-    var mittel = document.createElement("div");
-    mittel.classList.add("feld");
+    buttonsDOMElement.innerHTML = "";
+    feldlaenge = 4;
     pointsErstellen();
-    roundErstellen();
-    document.querySelector("#leicht").remove();
-    document.querySelector("#mittel").remove();
-    document.querySelector("#schwer").remove();
+    spielFelder.push("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    ganzesFeld.classList.add("mittleresspielfeld");
+    boardErstellen();
 }
 //erstellt spielfeld für schwierigkeit: schwer und entfernt alle buttons
 function schwerErstellen() {
-    schwerDOMElement.innerHTML = "";
-    var schwer = document.createElement("div");
-    schwer.classList.add("feld");
+    buttonsDOMElement.innerHTML = "";
+    feldlaenge = 5;
     pointsErstellen();
-    roundErstellen();
-    document.querySelector("#leicht").remove();
-    document.querySelector("#mittel").remove();
-    document.querySelector("#schwer").remove();
+    spielFelder.unshift("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    ganzesFeld.classList.add("schweresspielfeld");
+    boardErstellen();
 }
-//erstellt den Punktestand
+// erstellt den Punktestand und die Spielrunde
 function pointsErstellen() {
-    var points = 0;
-    pointsDOMElement.innerHTML = " Punktestand: " + points;
-    console.log("punktestand hat geklappt");
+    pointsDOMElement.innerHTML = " Punkte Du: " + pointsYou + " | Punkte Computer: " + pointsComp + " | Spielrunde: " + round + "/" + feldlaenge;
+    console.log("punktestand und spielrunde wurde erstellt");
 }
-//erstellt den stand der Spielrunde
-function roundErstellen() {
-    var round = 0;
-    roundDOMElement.innerHTML = " Spielrunde: " + round;
-    console.log("spielrunde hat geklappt");
+function boardErstellen() {
+    ganzesFeld.innerHTML = "";
+    var _loop_1 = function (index_1) {
+        var board = document.createElement("div");
+        board.addEventListener("click", handleClick);
+        function handleClick() {
+            if (playerYou == true && board.innerHTML == "") {
+                board.innerHTML = "<i class='fas fa-times'></i>";
+                console.log("X gesetzt");
+                playerYou = false;
+                checkWin();
+                if (zug < spielFelder.length) {
+                    setTimeout(computer, 500);
+                }
+            }
+        }
+        board.classList.add("feld");
+        ganzesFeld.appendChild(board);
+    };
+    for (var index_1 = 0; index_1 < spielFelder.length; index_1++) {
+        _loop_1(index_1);
+    }
+    computer();
 }
-// var myKreis: HTMLElement = document.getElementById("kreis");
-// var myKreuz: HTMLElement = document.getElementById("kreuz");
-// //wenn auf play geklickt wird, wird die funktion toggleicons aufgerufen
-// myKreis.addEventListener("click", function (): void {
-//     toggleIcons(this, myKreuz);
-// });
-// //wenn auf pause geklickt wird, wird die funktion toggleicons aufgerufen
-// myKreuz.addEventListener("click", function (): void {
-//     toggleIcons(this, myKreis);
-// });
-// //uebergebe zwei elemente, mit dem ersten element wird die klasse 'is-hidden' geaddet und ist nich mehr sichtbar
-// //beim zweiten element wird die klasse 'is-hidden' removed und ist wieder sichtbar
-// function toggleIcons(firstHTMLElement: HTMLElement, secondHTMLElement: HTMLElement): void {
-//     firstHTMLElement.classList.add("is-hidden");
-//     secondHTMLElement.classList.remove("is-hidden");
-// }
-//toggle mit 'leichtbutton'
-// var myLeichtbutton: HTMLElement = document.getElementById("leicht");
-// var myLeichtspielfeld: HTMLElement = document.getElementById("board");
-// myLeichtbutton.addEventListener("click", function (): void {
-//     toggleLeicht(this, myLeichtbutton);
-// });
-// myLeichtspielfeld.addEventListener("click", function (): void {
-//     toggleLeicht(this, myLeichtspielfeld);
-// });
-// function toggleLeicht(firstHTMLElement: HTMLElement, secondHTMLElement: HTMLElement): void {
-//     firstHTMLElement.classList.remove("is-hidden");
-//     secondHTMLElement.classList.add("is-hidden");
+function computer() {
+    if (playerYou == true) {
+        return;
+    }
+    var spielbox = ganzesFeld.children;
+    do {
+        var randomIcon = Math.floor(Math.random() * spielFelder.length);
+        if (spielbox.item(randomIcon).innerHTML == "") {
+            spielbox.item(randomIcon).innerHTML = "<i class='far fa-circle'></i>";
+            checkWin();
+            playerYou = true;
+        }
+    } while (playerYou == false);
+}
+//
+function checkWin() {
+    zug++;
+    var spielbox = ganzesFeld.children;
+    var counter = 0;
+    for (var i = 0; i < feldlaenge; i++) {
+        for (var j = 1; j < feldlaenge; j++) {
+            if (spielbox.item(i + feldlaenge * j).innerHTML == "") {
+                continue;
+            }
+            if (spielbox.item(i).innerHTML == spielbox.item(i + feldlaenge * j).innerHTML) {
+                counter += 1;
+                if (counter >= feldlaenge - 1) {
+                    roundCounter(spielbox.item(i).innerHTML);
+                }
+            }
+        }
+        counter = 0;
+        for (var j = 1; j < feldlaenge; j++) {
+            if (spielbox.item(i * feldlaenge + 1 * j).innerHTML == "") {
+                continue;
+            }
+            if (spielbox.item(i * feldlaenge).innerHTML == spielbox.item(i * feldlaenge + 1 * j).innerHTML) {
+                counter += 1;
+                if (counter >= feldlaenge - 1) {
+                    roundCounter(spielbox.item(i * feldlaenge).innerHTML);
+                }
+            }
+        }
+        counter = 0;
+    }
+    for (var j = 1; j < feldlaenge; j++) {
+        if (spielbox.item(j * feldlaenge + j).innerHTML == "") {
+            continue;
+        }
+        if (spielbox.item(0).innerHTML == spielbox.item(j * feldlaenge + j).innerHTML) {
+            counter += 1;
+            if (counter >= feldlaenge - 1) {
+                roundCounter(spielbox.item(0).innerHTML);
+            }
+        }
+    }
+    counter = 0;
+    for (var j = 1; j < feldlaenge; j++) {
+        if (spielbox.item(j * feldlaenge - j).innerHTML == "") {
+            continue;
+        }
+        if (spielbox.item(feldlaenge - 1).innerHTML == spielbox.item(j * feldlaenge - j).innerHTML) {
+            counter += 1;
+            if (counter >= feldlaenge - 1) {
+                roundCounter(spielbox.item(feldlaenge - 1).innerHTML);
+            }
+        }
+    }
+    pointsYou = 0;
+    pointsComp = 0;
+}
+function roundCounter(_winner) {
+    console.log(_winner.search("fas fa-times"));
+    if (_winner.search("fas fa-times") > 0) {
+        pointsYou++;
+    }
+    console.log(_winner.search("far fa-circle"));
+    if (_winner.search("far fa-circle") > 0) {
+        pointsComp++;
+    }
+    console.log(_winner);
+    if (zug >= spielFelder.length) {
+        round += 1;
+        boardErstellen();
+    }
+    pointsErstellen();
+}
+// function spielStand(): void {
+//     ganzesFeld.innerHTML = "";
+//     pointsDOMElement.innerHTML = "";
+//
+//     let winner: string;
+//     if (pointsYou > pointsComp) {
+//         winner = "Du hast gewonnen!";
+//         if (playerComp == true) {
+//             winner = "Computer hat gewonnen!";
+//         }
+//         else {
+//             winner = "Es steht unentschieden!";
+//         }
+//     }
 // }
 //# sourceMappingURL=tictactoe.js.map
