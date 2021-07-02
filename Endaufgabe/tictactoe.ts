@@ -5,13 +5,12 @@ var schwerDOMElement: HTMLElement;
 var pointsDOMElement: HTMLElement;
 var ganzesFeld: HTMLElement;
 let playerYou: boolean = false;
-// let playerComp: boolean = true;
 let pointsComp: number = 0;
 let pointsYou: number = 0;
-let round: number = 1;
-let zug: number = 0;
+let finalpointsComp: number = 0;
+let finalpointsYou: number = 0;
+let round: number = 0;
 let feldlaenge: number;
-
 
 buttonsDOMElement = document.querySelector("#buttons");
 leichtDOMElement = document.querySelector("#leicht");
@@ -26,196 +25,232 @@ schwerDOMElement.addEventListener("click", schwerErstellen);
 
 
 
+//ein array das alle freien felder enthält
+var freiefelder: HTMLDivElement[] = [];
 
-var spielFelder: string[] = [];
 
-//erstellt spielfeld für schwierigkeit: leicht und entfernt alle buttons
 function leichtErstellen(): void {
 
     buttonsDOMElement.innerHTML = "";
     feldlaenge = 3;
-
-    pointsErstellen();
-
-    spielFelder.push("", "", "", "", "", "", "", "", "");
-
     ganzesFeld.classList.add("leichtesspielfeld");
-
-
     boardErstellen();
 }
 
-//erstellt spielfeld für schwierigkeit: mittel und entfernt alle buttons
+
 function mittelErstellen(): void {
 
     buttonsDOMElement.innerHTML = "";
     feldlaenge = 4;
-
-    pointsErstellen();
-
-    spielFelder.push("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
     ganzesFeld.classList.add("mittleresspielfeld");
     boardErstellen();
 }
 
-//erstellt spielfeld für schwierigkeit: schwer und entfernt alle buttons
+
 function schwerErstellen(): void {
 
     buttonsDOMElement.innerHTML = "";
     feldlaenge = 5;
-
-    pointsErstellen();
-
-    spielFelder.unshift("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
     ganzesFeld.classList.add("schweresspielfeld");
     boardErstellen();
 }
 
-// erstellt den Punktestand und die Spielrunde
+
 function pointsErstellen(): void {
 
-pointsDOMElement.innerHTML = " Punkte Du: " + pointsYou + " | Punkte Computer: " + pointsComp + " | Spielrunde: " + round + "/" + feldlaenge;
+    pointsDOMElement.innerHTML = " Punkte Du: " + pointsYou + " | Punkte Computer: " + pointsComp + " | Spielrunde: " + round + "/" + feldlaenge;
 
-console.log("punktestand und spielrunde wurde erstellt");
 }
-
+//funktion erstellt ein leeres Spielfeld
 function boardErstellen(): void {
-    
-    ganzesFeld.innerHTML = "";
-    for (let index: number = 0; index < spielFelder.length; index++) {
+    playerYou = false;
+    round += 1;
+    pointsErstellen();
+    ganzesFeld.innerHTML = ""; //spielsteine werden 'entfernt'
+    for (let index: number = 0; index < Math.pow(feldlaenge, 2); index++) { //eine schleife in der die felder die man ausfüllen kann erstellt werden. Menge ist abhängig vom Schwierigkeitsgrad
 
-        let board: HTMLElement = document.createElement("div");
-        board.addEventListener("click", handleClick);
-
-        function handleClick(): void {
-
-            if (playerYou == true && board.innerHTML == "") {
-
-                board.innerHTML = "<i class='fas fa-times'></i>";
-                console.log("X gesetzt");
-                playerYou = false;
-                checkWin();
-                if (zug < spielFelder.length) {
-                    setTimeout(computer, 500);
-                }
-            }
-        }
+        let board: HTMLDivElement = document.createElement("div");
+        board.addEventListener("click", handleClick); 
+        board.innerHTML = "";
+        freiefelder.push(board);
         board.classList.add("feld");
         ganzesFeld.appendChild(board);
     }
     computer();
 }
+//hier wird entschieden ob der user ein 'steinchen' setzten kann und setzt einen 'stein' wenn möglich 
+function handleClick(_event: Event): void {
+    let box: HTMLDivElement = <HTMLDivElement>_event.currentTarget; 
+    if (playerYou == true && box.innerHTML == "") {
 
+        box.innerHTML = "<i class='fas fa-times'></i>";
 
+        freiefelder.splice(freiefelder.indexOf(box), 1); //hier werden die 'gefüllten' felder (in denen ein 'stein' liegt) aus dem array entfernt, damit es nur noch freie felder enthält  
+        playerYou = false; //zug wurde vom nutzer gemacht (computer ist dran)
+        checkWin();
+        if (freiefelder.length > 0) {
+            setTimeout(computer, 500); //der computer setzt nach einer halben sekunde seinen stein
+        }
+    }
+}
 
+//hier werden die 'steinchen' vom computer gesetzt
 function computer(): void {
     if (playerYou == true) {
         return;
     }
-    let spielbox: HTMLCollection = ganzesFeld.children;
     do {
-        var randomIcon: number = Math.floor(Math.random() * spielFelder.length);
-        if (spielbox.item(randomIcon).innerHTML == "") {
-            spielbox.item(randomIcon).innerHTML = "<i class='far fa-circle'></i>";
+        var randomNumber: number = Math.floor(Math.random() * freiefelder.length); //der computer setzt in ein zufälliges freies feld seine 'steine'
+        if (freiefelder[randomNumber].innerHTML == "") {
+            freiefelder[randomNumber].innerHTML = "<i class='far fa-circle'></i>";
+            freiefelder.splice(randomNumber, 1); //aus dem array wird das gesetzte feld entfernt (sodass der computer nicht noch ein mal in das feld ein stein setzt)
             checkWin();
             playerYou = true;
         }
-    } while (playerYou == false);
-    
+    } while (playerYou == false); 
+
 }
 
-//
+//hier wird überprüft ob sich drei gleiche symbole nebeneinander befinden (für einen punkt)
 function checkWin(): void {
-    zug++;
+
+    pointsYou = finalpointsYou; //punkte der aktuellen runde werden auf die punkte der vorherigen runden gesetzt
+    pointsComp = finalpointsComp;
+
     let spielbox: HTMLCollection = ganzesFeld.children;
     let counter: number = 0;
     for (let i: number = 0; i < feldlaenge; i++) {
-        for (let j: number = 1; j < feldlaenge; j++) {
+        for (let j: number = 1; j < feldlaenge; j++) { //überprüfung der spalten
             if (spielbox.item(i + feldlaenge * j).innerHTML == "") {
                 continue;
             }
-            if (spielbox.item(i).innerHTML == spielbox.item(i + feldlaenge * j).innerHTML) {
+            if (spielbox.item(i).innerHTML == spielbox.item(i + feldlaenge * j).innerHTML) { 
                 counter += 1;
                 if (counter >= feldlaenge - 1) {
-                    roundCounter(spielbox.item(i).innerHTML);
+                    searchWinner(spielbox.item(i).innerHTML);
                 }
             }
         }
+
         counter = 0;
-        for (let j: number = 1; j < feldlaenge; j++) {
+        for (let j: number = 1; j < feldlaenge; j++) { //überprüfung der zeilen
             if (spielbox.item(i * feldlaenge + 1 * j).innerHTML == "") {
                 continue;
             }
             if (spielbox.item(i * feldlaenge).innerHTML == spielbox.item(i * feldlaenge + 1 * j).innerHTML) {
                 counter += 1;
                 if (counter >= feldlaenge - 1) {
-                    roundCounter(spielbox.item(i * feldlaenge).innerHTML);
+                    searchWinner(spielbox.item(i * feldlaenge).innerHTML);
                 }
             }
         }
+
         counter = 0;
 
     }
-    for (let j: number = 1; j < feldlaenge; j++) {
+    for (let j: number = 1; j < feldlaenge; j++) { //überprüfung der diagonalen (von links oben nach rechts unten)
         if (spielbox.item(j * feldlaenge + j).innerHTML == "") {
             continue;
         }
         if (spielbox.item(0).innerHTML == spielbox.item(j * feldlaenge + j).innerHTML) {
             counter += 1;
             if (counter >= feldlaenge - 1) {
-                roundCounter(spielbox.item(0).innerHTML);
+                searchWinner(spielbox.item(0).innerHTML);
             }
         }
     }
+
     counter = 0;
-    for (let j: number = 1; j < feldlaenge; j++) {
-        if (spielbox.item(j * feldlaenge - j).innerHTML == "") {
+    for (let j: number = 1; j < feldlaenge; j++) { //überprüfung der diagonalen (von rechts oben nach links unten)
+        if (spielbox.item((j + 1) * (feldlaenge - 1)).innerHTML == "") {
             continue;
         }
-        if (spielbox.item(feldlaenge - 1).innerHTML == spielbox.item(j * feldlaenge - j).innerHTML) {
+        if (spielbox.item(feldlaenge - 1).innerHTML == spielbox.item((j + 1) * (feldlaenge - 1)).innerHTML) {
             counter += 1;
             if (counter >= feldlaenge - 1) {
-                roundCounter(spielbox.item(feldlaenge - 1).innerHTML);
+                searchWinner(spielbox.item(feldlaenge - 1).innerHTML);
             }
         }
     }
-    pointsYou = 0;
-    pointsComp = 0;
+    chackend();
 }
+//schaut ob in einer der felder ein punkt erzielt wurde (ob ein kreis oder kreuz gesetzt wurde) und gibt demenstprechend punkte
+function searchWinner(_winner: string): void {
 
-function roundCounter(_winner: string): void {
-    console.log(_winner.search("fas fa-times"));
     if (_winner.search("fas fa-times") > 0) {
-        pointsYou ++;
+        pointsYou++;
     }
-    console.log(_winner.search("far fa-circle"));
+
     if (_winner.search("far fa-circle") > 0) {
-        
+
         pointsComp++;
     }
-    console.log(_winner);
-    
-    if (zug >= spielFelder.length) {
-        round += 1;
-        boardErstellen();
+
+}
+//wird nach freien feldern überprüft, wenn es keine freien felder mehr gibt dann ist die runde vorbei
+function chackend(): void {
+    if (freiefelder.length <= 0) {
+        finalpointsComp = pointsComp; //endpunkte werden gesetzt
+        finalpointsYou = pointsYou;
+        playerYou = true;
+        if (round >= feldlaenge) { //wenn die maximale rundenanzahl erreicht wurde dann ist das spiel vorbei
+            spielStand();
+
+        } else {
+            createbuttonNextRound();
+            createButtonRestart();
+        }
     }
     pointsErstellen();
 }
+//siehe funktionsname
+function createbuttonNextRound(): void {
+    let button: HTMLButtonElement = document.createElement("button");
+    button.innerHTML = "Nächste Runde";
+    button.classList.add("nextround");
+    button.addEventListener("click", boardErstellen);
+    ganzesFeld.appendChild(button);
+}
+//der gewinner des spiels wird bekannt gegeben
+function spielStand(): void {
+    let newdiv: HTMLDivElement = document.createElement("div");
+    newdiv.id = "winner";
+    let winner: string;
+    if (pointsYou > pointsComp) {
+        winner = "Du hast gewonnen!";
+    } else if (pointsYou < pointsComp) {
+        winner = "Computer hat gewonnen!";
+    }
+    else {
+        winner = "Es steht unentschieden!";
+    }
+    newdiv.innerHTML = winner;
+    ganzesFeld.innerHTML = "";
+    ganzesFeld.appendChild(newdiv);
 
-
-
-// function spielStand(): void {
-//     ganzesFeld.innerHTML = "";
-//     pointsDOMElement.innerHTML = "";
-//
-//     let winner: string;
-//     if (pointsYou > pointsComp) {
-//         winner = "Du hast gewonnen!";
-//         if (playerComp == true) {
-//             winner = "Computer hat gewonnen!";
-//         }
-//         else {
-//             winner = "Es steht unentschieden!";
-//         }
-//     }
-// }
+    let button: HTMLButtonElement = document.createElement("button"); //hier wird der button nach dem spiel erstellt, mit der man zurück zur startseite kommt
+    button.innerHTML = "zurück zur Startseite";
+    button.classList.add("backtomenue");
+    button.addEventListener("click", startseite);
+    ganzesFeld.appendChild(button); 
+    createButtonRestart();
+}
+//seite wird neu geladen 
+function startseite(): void {
+    window.location.reload();
+}
+//punkte, rundenanzahl werden zurückgesetzt
+function restartBoard(): void {
+    round = 0;
+    finalpointsComp = pointsComp = 0;
+    finalpointsYou = pointsYou = 0;
+    boardErstellen();
+}
+//siehe funktionsname
+function createButtonRestart(): void {
+    let button: HTMLButtonElement = document.createElement("button");
+    button.innerHTML = "Neu starten";
+    button.classList.add("restart");
+    button.addEventListener("click", restartBoard);
+    ganzesFeld.appendChild(button);
+}
